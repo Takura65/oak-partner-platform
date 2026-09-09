@@ -42,7 +42,7 @@ export default function RegisterView() {
 
   if (submitted) {
     return (
-      <div className="max-w-xl">
+      <div className="max-w-xl mx-auto">
         <div className="rounded-2xl bg-gradient-to-br from-navy to-navy-light p-6 text-white relative overflow-hidden">
           <div className="absolute -right-8 -top-8 w-32 h-32 rounded-full bg-white/5" />
           <div className="w-9 h-9 rounded-full bg-white/15 flex items-center justify-center mb-3">
@@ -99,14 +99,14 @@ export default function RegisterView() {
   }
 
   return (
-    <div className="max-w-xl">
+    <div className="max-w-xl mx-auto">
       <div className="rounded-2xl bg-gradient-to-br from-navy to-navy-light p-6 text-white relative overflow-hidden">
         <div className="absolute -right-10 -top-10 w-36 h-36 rounded-full bg-white/5" />
         <div className="text-xl font-semibold">Partner Convening 2026</div>
         <div className="text-sm text-white/60 mt-0.5">Harare · 9–11 March 2026</div>
       </div>
 
-      <div className="grid grid-cols-3 gap-3 -mt-6 relative px-1">
+      <div className="grid grid-cols-3 gap-3 mt-4 relative px-1 max-w-md mx-auto">
         {[
           ["110+", "Attendees"],
           ["24", "Sessions"],

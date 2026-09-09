@@ -31,7 +31,7 @@ export default function CheckInView({ attendees, checkIn, checkedInCount }: Chec
 
   if (screen === "fail") {
     return (
-      <div className="max-w-xl">
+      <div className="max-w-xl mx-auto">
         <div className="rounded-2xl bg-gradient-to-br from-rose-500 to-rose-400 p-5 text-white relative overflow-hidden">
           <div className="absolute -right-8 -top-8 w-28 h-28 rounded-full bg-white/10" />
           <div className="w-9 h-9 rounded-full bg-white/20 flex items-center justify-center mb-2">
@@ -76,7 +76,7 @@ export default function CheckInView({ attendees, checkIn, checkedInCount }: Chec
   if (screen === "success" && current) {
     const pct = Math.round((checkedInCount / TOTAL_EXPECTED) * 100);
     return (
-      <div className="max-w-xl">
+      <div className="max-w-xl mx-auto">
         <div className="rounded-2xl bg-gradient-to-br from-emerald-500 to-emerald-400 p-5 text-white relative overflow-hidden">
           <div className="absolute -right-8 -top-8 w-28 h-28 rounded-full bg-white/10" />
           <div className="w-9 h-9 rounded-full bg-white/20 flex items-center justify-center mb-2">
@@ -136,7 +136,7 @@ export default function CheckInView({ attendees, checkIn, checkedInCount }: Chec
   const remaining = SCAN_QUEUE.filter((p) => !attendees[p.id]?.checkedIn);
 
   return (
-    <div className="max-w-xl">
+    <div className="max-w-xl mx-auto">
       <div className="font-semibold text-lg text-slate-800">Event Check-In</div>
       <div className="text-sm text-slate-400 mb-4">Scan an attendee QR code to check them in</div>
 

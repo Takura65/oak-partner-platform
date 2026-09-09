@@ -13,7 +13,7 @@ export default function AttendanceView({ attendees, checkedInCount, setActive }:
   const list = Object.values(attendees).filter((a) => a.checkedIn);
 
   return (
-    <div className="max-w-xl">
+    <div className="max-w-xl mx-auto">
       <div className="font-semibold text-lg text-slate-800">Attendance</div>
       <div className="text-sm text-slate-400 mb-4">Check-in tracking · 9–11 March 2026</div>
 

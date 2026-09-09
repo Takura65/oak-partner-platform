@@ -11,7 +11,7 @@ export default function PartnersView() {
   if (selected) {
     const p = selected;
     return (
-      <div className="max-w-xl">
+      <div className="max-w-xl mx-auto">
         <button onClick={() => setSelected(null)} className="flex items-center gap-1.5 text-sm text-navy font-medium mb-4">
           <ArrowLeft size={15} /> Partner Directory
         </button>
@@ -68,7 +68,7 @@ export default function PartnersView() {
   const filtered = PARTNERS.filter((p) => (p.name + p.tags.join(" ")).toLowerCase().includes(q.toLowerCase()));
 
   return (
-    <div className="max-w-xl">
+    <div className="max-w-xl mx-auto">
       <div className="font-semibold text-lg text-slate-800">Partner Directory</div>
       <div className="text-sm text-slate-400 mb-4">8 partner organisations</div>
 

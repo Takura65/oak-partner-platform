@@ -28,13 +28,15 @@ export default function App() {
     <div className="h-screen w-full flex bg-[#f5f6f8] font-sans text-slate-800">
       <Sidebar active={active} setActive={setActive} />
       <div className="flex-1 overflow-y-auto p-8">
-        {active === "register" && <RegisterView />}
-        {active === "checkin" && <CheckInView attendees={attendees} checkIn={checkIn} checkedInCount={checkedInCount} />}
-        {active === "programme" && <ProgrammeView />}
-        {active === "partners" && <PartnersView />}
-        {active === "attendance" && (
-          <AttendanceView attendees={attendees} checkedInCount={checkedInCount} setActive={setActive} />
-        )}
+        <div className="w-full max-w-2xl mx-auto">
+          {active === "register" && <RegisterView />}
+          {active === "checkin" && <CheckInView attendees={attendees} checkIn={checkIn} checkedInCount={checkedInCount} />}
+          {active === "programme" && <ProgrammeView />}
+          {active === "partners" && <PartnersView />}
+          {active === "attendance" && (
+            <AttendanceView attendees={attendees} checkedInCount={checkedInCount} setActive={setActive} />
+          )}
+        </div>
       </div>
     </div>
   );
