@@ -1,0 +1,8 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap');
+@import 'tailwindcss';
+* { box-sizing: border-box; }
+html { min-width: 320px; }
+body { margin: 0; background: #f5f7fa; color: #13213c; font-family: 'DM Sans', sans-serif; }
+button, input, select { font: inherit; }
+label { display: grid; gap: 7px; color: #4d5c73; font-size: 12px; font-weight: 600; }
+input, select { height: 42px; border: 1px solid #dce2eb; border-radius: 5px; padding: 0 13px; background: white; font-size: 13px; }
