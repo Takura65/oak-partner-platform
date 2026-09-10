@@ -1,0 +1,10 @@
+"use client";
+
+import { QRCodeSVG } from "qrcode.react";
+import Link from "next/link";
+import { Frame } from "../../ui";
+
+export default function PassPage({ params }: { params: { id: string } }) {
+  const code = params.id || "OAK-2026-7842-XKPH";
+  return <Frame role="Partner"><main className="mx-auto max-w-5xl px-5 py-10"><div className="rounded-3xl bg-emerald-600 p-6 text-white shadow-lg"><p className="text-[11px] font-bold uppercase tracking-[.2em] text-emerald-100">Registration complete</p><h1 className="mt-2 text-2xl font-bold">You&apos;re registered, Alex!</h1><p className="mt-1 text-sm text-emerald-100">Keep this pass ready for event entrance.</p></div><div className="mt-8 grid gap-6 lg:grid-cols-[1fr_360px]"><section className="rounded-3xl bg-white p-7 shadow-sm ring-1 ring-slate-200"><p className="text-xs font-bold uppercase tracking-[.2em] text-slate-400">Attendee details</p><dl className="mt-6 grid gap-5 sm:grid-cols-2">{[["Name", "Alex Moyo"], ["Organisation", "Oak Foundation"], ["Role", "Partner"], ["Email", "alex@example.org"], ["Event dates", "9–11 November 2026"], ["Location", "Cresta Lodge, Harare"]].map(([label, value]) => <div key={label}><dt className="text-[10px] font-bold uppercase tracking-wider text-slate-400">{label}</dt><dd className="mt-1 text-sm font-semibold text-slate-800">{value}</dd></div>)}</dl></section><section className="rounded-3xl bg-[#182c53] p-7 text-center text-white shadow-xl"><p className="text-[11px] font-bold uppercase tracking-[.2em] text-white/60">Your entry pass</p><div className="mx-auto mt-6 grid w-fit place-items-center rounded-2xl bg-white p-5"><QRCodeSVG value={code} size={190} /></div><p className="mt-5 font-mono text-sm font-bold tracking-wider">{code}</p><p className="mt-2 text-xs text-white/60">Present at event entrance for check-in</p><button className="mt-6 w-full rounded-xl bg-white px-4 py-3 text-sm font-bold text-slate-900">Download QR Code</button><Link href="/" className="mt-3 block text-xs font-semibold text-white/60 hover:text-white">Register another attendee</Link></section></div></main></Frame>;
+}

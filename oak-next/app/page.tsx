@@ -1,69 +1,16 @@
-import Image from "next/image";
+"use client";
 
-export default function Home() {
-  return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert h-5 w-[100px]"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the{" "}
-            <code className="rounded bg-black/[.06] px-1.5 py-0.5 font-mono text-[0.9em] dark:bg-white/[.08]">
-              page.tsx
-            </code>{" "}
-            file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert h-[14px] w-4"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={14}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
-    </div>
-  );
+import { useState } from "react";
+import Link from "next/link";
+
+const roles = ["Partner", "OAK Staff", "Presenter", "Observer", "Coordination Team"];
+
+function Field({ label, required, children }: { label: string; required?: boolean; children?: React.ReactNode }) {
+  return <label className="block"><span className="mb-2 block text-[11px] font-bold uppercase tracking-wider text-slate-500">{label} {required && <b className="text-red-500">*</b>}</span>{children || <input className="h-12 w-full rounded-xl border-0 bg-[#eef1f6] px-4 text-sm outline-none ring-emerald-500 focus:ring-2" />}</label>;
+}
+
+export default function RegisterPage() {
+  const [role, setRole] = useState("Partner");
+  const [submitted, setSubmitted] = useState(false);
+  return <div className="min-h-screen bg-[#f8fafc] pb-24 text-slate-900"><header className="bg-[#182c53] text-white"><div className="mx-auto flex max-w-6xl items-center justify-between px-5 py-5 lg:px-8"><div className="flex items-center gap-3"><span className="grid h-10 w-10 place-items-center rounded-full border border-white/40 text-lg">◎</span><span><span className="block text-[10px] font-bold tracking-[.25em] text-white/65">OAK FOUNDATION</span><span className="text-sm font-semibold">Zimbabwe Partner Gathering</span></span></div><div className="hidden text-right sm:block"><p className="text-sm font-semibold">Partner Convening 2026</p><p className="text-xs text-white/65">Cresta Lodge, Harare · 9–11 November 2026</p></div></div></header><section className="bg-[#182c53] px-5 pb-10 text-white"><div className="mx-auto max-w-6xl pt-7"><p className="mb-3 text-[11px] font-bold uppercase tracking-[.24em] text-emerald-300">Official event registration</p><h1 className="text-4xl font-bold tracking-tight sm:text-5xl">Partner Convening 2026</h1><p className="mt-3 text-sm text-white/70">Cresta Lodge, Harare · 9–11 November 2026</p><div className="mt-8 grid max-w-xl grid-cols-3 gap-2">{[["110+", "Attendees"], ["24", "Sessions"], ["38", "Partners"]].map(([value, label]) => <div key={label} className="rounded-2xl bg-white/10 px-4 py-3"><strong className="block text-xl">{value}</strong><span className="text-[10px] uppercase tracking-wider text-white/60">{label}</span></div>)}</div></div></section><main className="mx-auto max-w-3xl px-5 py-10"><div className="mb-7"><p className="mb-2 text-[11px] font-bold uppercase tracking-[.2em] text-emerald-600">Join us</p><h2 className="text-3xl font-bold tracking-tight sm:text-4xl">Register for the gathering</h2><p className="mt-2 max-w-2xl text-sm leading-6 text-slate-500">Complete your details below. Your information is used only to coordinate your experience at the convening.</p></div>{/* DESIGN REVIEW REQUIRED: Confirm canonical event location and date across registration, programme, and pass screens. */}<form className="space-y-8" onSubmit={(event) => { event.preventDefault(); setSubmitted(true); }}><div className="grid gap-5 sm:grid-cols-2"><Field label="First name" required /><Field label="Last name" required /></div><div className="space-y-5"><Field label="Organisation" required /><Field label="Sub-partner / programme area (Optional)" /><Field label="Role / capacity" required><select value={role} onChange={(event) => setRole(event.target.value)} className="h-12 w-full rounded-xl border-0 bg-[#eef1f6] px-4 text-sm outline-none ring-emerald-500 focus:ring-2">{roles.map((item) => <option key={item}>{item}</option>)}</select></Field><div className="grid gap-5 sm:grid-cols-2"><Field label="Email address" required /><Field label="Phone number" required /></div></div><div className="rounded-3xl bg-white p-6 shadow-sm ring-1 ring-slate-200"><p className="mb-5 text-xs font-bold uppercase tracking-[.18em] text-slate-700">Requirements</p><div className="space-y-5"><Field label="Dietary requirements" /><Field label="Accessibility requirements" /><Field label="Travel & accommodation" /></div></div><label className="flex items-start gap-3 text-sm text-slate-500"><input type="checkbox" required className="mt-1 h-4 w-4 accent-emerald-600" />I agree to OAK Foundation&apos;s privacy policy and consent to the use of my details for event coordination.</label><button className="h-14 w-full rounded-xl bg-[#0f172a] text-sm font-bold text-white shadow-lg shadow-slate-900/15 transition hover:bg-[#182c53]">{role === "Partner" ? "Register & Generate QR Code" : "Register & Continue"}</button><p className="text-center text-xs text-slate-400">Your data is handled securely and never shared outside the event coordination team.</p></form>{submitted && <div className="fixed inset-0 z-30 grid place-items-center bg-slate-950/40 p-5"><div className="w-full max-w-md rounded-3xl bg-white p-7 shadow-2xl"><p className="text-xs font-bold uppercase tracking-wider text-emerald-600">Registration received</p><h2 className="mt-2 text-2xl font-bold">You&apos;re on the list.</h2><p className="mt-2 text-sm text-slate-500">{role === "Partner" ? "Your digital entry pass is ready." : "Continue to the programme workspace."}</p><Link href={role === "Partner" ? "/pass/OAK-2026-7842-XKPH" : "/programme"} className="mt-6 block rounded-xl bg-slate-900 px-5 py-3 text-center text-sm font-bold text-white">Continue</Link></div></div>}</main><nav className="fixed inset-x-0 bottom-0 z-20 border-t border-slate-200 bg-white/95 px-2 py-2 shadow-[0_-8px_30px_rgba(15,23,42,.08)]"><div className="mx-auto flex max-w-2xl justify-center"><Link href="/" className="rounded-xl bg-slate-900 px-6 py-2 text-center text-[10px] font-bold text-white"><span className="block text-lg leading-none">+</span>Register</Link></div></nav></div>;
 }

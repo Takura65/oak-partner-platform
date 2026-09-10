@@ -1,8 +1,12 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #eef1f4;
+  --foreground: #0f172a;
+  --navy: #0f172a;
+  --navy-soft: #162e55;
+  --muted: #64748b;
+  --panel: #eef1f6;
 }
 
 @theme inline {
@@ -10,8 +14,56 @@
   --color-foreground: var(--foreground);
 }
 
+html {
+  background: var(--background);
+}
+
 body {
+  margin: 0;
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-geist-sans), Arial, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+.input {
+  width: 100%;
+  min-height: 42px;
+  border: 0;
+  border-radius: 10px;
+  background: #edf1f5;
+  padding: 0.7rem 0.875rem;
+  font-size: 0.95rem;
+  color: #0f172a;
+  outline: none;
+  transition: box-shadow 0.15s ease, background 0.15s ease;
+}
+
+.input::placeholder {
+  color: #8ca0b8;
+}
+
+.input:focus {
+  background: #edf2f8;
+  box-shadow: 0 0 0 2px rgba(90, 120, 175, 0.18);
+}
+
+textarea.input {
+  min-height: 76px;
+}
+
+.paper-grid {
+  background-image: linear-gradient(#e2e8f0 1px, transparent 1px),
+    linear-gradient(90deg, #e2e8f0 1px, transparent 1px);
+  background-size: 32px 32px;
 }
