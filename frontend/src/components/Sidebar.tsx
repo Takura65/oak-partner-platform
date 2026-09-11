@@ -10,12 +10,14 @@ const ICONS: Record<NavId, typeof UserPlus> = {
   attendance: LayoutGrid,
 };
 
+
 interface SidebarProps {
   active: NavId;
   setActive: (id: NavId) => void;
+  registered: boolean;
 }
 
-export default function Sidebar({ active, setActive }: SidebarProps) {
+export default function Sidebar({ active, setActive, registered }: SidebarProps) {
   return (
     <div className="w-60 shrink-0 border-r border-slate-200 bg-white flex flex-col h-full">
       <div className="px-6 pt-6 pb-5 border-b border-slate-100">
@@ -24,7 +26,7 @@ export default function Sidebar({ active, setActive }: SidebarProps) {
         <div className="text-[11px] font-medium text-slate-500 mt-3">PARTNER CONVENING 2026</div>
       </div>
       <nav className="flex-1 py-3 px-3 space-y-0.5">
-        {NAV.map((n) => {
+        {NAV.filter((n) => (registered ? n.id !== "register" : n.id === "register")).map((n) => {
           const Icon = ICONS[n.id];
           const isActive = active === n.id;
           return (
@@ -53,3 +55,6 @@ export default function Sidebar({ active, setActive }: SidebarProps) {
     </div>
   );
 }
+
+
+

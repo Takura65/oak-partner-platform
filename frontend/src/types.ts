@@ -74,4 +74,7 @@ export interface RegistrationForm {
   role: Role | "";
   email: string;
   phone: string;
+  dietary: string;
+  accessibility: string;
+  travel: string;
 }

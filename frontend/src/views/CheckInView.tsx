@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Check, X, RefreshCw, Phone } from "lucide-react";
+import QrScanner from "qr-scanner";
 import type { AttendeeMap, ScanPerson } from "../types";
 import { ROLE_STYLE, SCAN_QUEUE, TOTAL_EXPECTED } from "../data/mock";
 import { initials } from "../utils";
@@ -16,8 +17,12 @@ export default function CheckInView({ attendees, checkIn, checkedInCount }: Chec
   const [screen, setScreen] = useState<Screen>("scan");
   const [current, setCurrent] = useState<ScanPerson | null>(null);
   const [manual, setManual] = useState("");
+  const [cameraError, setCameraError] = useState("");
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const scannerRef = useRef<QrScanner | null>(null);
 
   const doScan = (person: ScanPerson) => {
+    scannerRef.current?.stop();
     checkIn(person);
     setCurrent(person);
     setScreen("success");
@@ -28,6 +33,32 @@ export default function CheckInView({ attendees, checkIn, checkedInCount }: Chec
     if (found) doScan(found);
     else setScreen("fail");
   };
+
+  useEffect(() => {
+    if (screen !== "scan" || !videoRef.current) return;
+
+    const scanner = new QrScanner(
+      videoRef.current,
+      (result) => {
+        const code = typeof result === "string" ? result : result.data;
+        const found = SCAN_QUEUE.find((person) => person.id.toLowerCase() === code.trim().toLowerCase());
+        if (found) doScan(found);
+        else setScreen("fail");
+      },
+      { highlightScanRegion: false, highlightCodeOutline: false },
+    );
+
+    scannerRef.current = scanner;
+    scanner.start().catch(() => {
+      setCameraError("Camera access is unavailable. Use manual code entry below.");
+    });
+
+    return () => {
+      scanner.stop();
+      scanner.destroy();
+      scannerRef.current = null;
+    };
+  }, [screen]);
 
   if (screen === "fail") {
     return (
@@ -140,18 +171,17 @@ export default function CheckInView({ attendees, checkIn, checkedInCount }: Chec
       <div className="font-semibold text-lg text-slate-800">Event Check-In</div>
       <div className="text-sm text-slate-400 mb-4">Scan an attendee QR code to check them in</div>
 
-      <div className="bg-[#0c1730] rounded-2xl p-8 flex flex-col items-center justify-center h-56 relative">
-        <div className="w-28 h-28 relative">
-          <div className="absolute top-0 left-0 w-6 h-6 border-t-2 border-l-2 border-white/40 rounded-tl" />
-          <div className="absolute top-0 right-0 w-6 h-6 border-t-2 border-r-2 border-white/40 rounded-tr" />
-          <div className="absolute bottom-0 left-0 w-6 h-6 border-b-2 border-l-2 border-white/40 rounded-bl" />
-          <div className="absolute bottom-0 right-0 w-6 h-6 border-b-2 border-r-2 border-white/40 rounded-br" />
+      <div className="bg-[#0c1730] rounded-2xl overflow-hidden h-56 relative flex items-center justify-center">
+        <video ref={videoRef} className="w-56 h-44 object-cover rounded-xl" muted playsInline />
+        <div className="absolute inset-x-0 bottom-3 text-center text-white/70 text-xs">
+          Position QR code inside the camera area
         </div>
-        <div className="text-white/30 text-xs mt-4">Position QR code within the frame</div>
         <div className="absolute bottom-3 left-4 text-white/25 text-[11px] flex items-center gap-1.5">
           <RefreshCw size={12} /> Hold camera steady · Auto-scans in 1–2 seconds
         </div>
       </div>
+
+      {cameraError && <div className="text-sm text-amber-600 mt-2 px-1">{cameraError}</div>}
 
       <div className="bg-white rounded-2xl border border-slate-200 mt-4 p-4">
         <div className="text-[11px] tracking-wide text-slate-400 mb-2 px-1">SIMULATE QR SCAN</div>

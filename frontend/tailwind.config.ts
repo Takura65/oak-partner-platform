@@ -6,8 +6,8 @@ export default {
     extend: {
       colors: {
         navy: {
-          DEFAULT: "#0f1e3d",
-          light: "#16295a",
+          DEFAULT: "#081a3a",
+          light: "#06132d",
         },
       },
       fontFamily: {

@@ -9,6 +9,7 @@ import type { AttendeeMap, NavId, ScanPerson } from "./types";
 
 export default function App() {
   const [active, setActive] = useState<NavId>("register");
+  const [registered, setRegistered] = useState(false);
   const [attendees, setAttendees] = useState<AttendeeMap>({});
 
   const checkIn = (person: ScanPerson) => {
@@ -26,10 +27,17 @@ export default function App() {
 
   return (
     <div className="h-screen w-full flex bg-[#f5f6f8] font-sans text-slate-800">
-      <Sidebar active={active} setActive={setActive} />
+      <Sidebar active={active} setActive={setActive} registered={registered} />
       <div className="flex-1 overflow-y-auto p-8">
         <div className="w-full max-w-2xl mx-auto">
-          {active === "register" && <RegisterView />}
+          {active === "register" && (
+            <RegisterView
+              onRegistered={() => {
+                setRegistered(true);
+                setActive("checkin");
+              }}
+            />
+          )}
           {active === "checkin" && <CheckInView attendees={attendees} checkIn={checkIn} checkedInCount={checkedInCount} />}
           {active === "programme" && <ProgrammeView />}
           {active === "partners" && <PartnersView />}

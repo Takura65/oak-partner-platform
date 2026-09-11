@@ -1,9 +1,27 @@
 import { useState } from "react";
-import { Check, Download } from "lucide-react";
+import { Check, ChevronDown, Download } from "lucide-react";
 import QRPattern from "../components/QRPattern";
 import type { RegistrationForm } from "../types";
 
-const EMPTY_FORM: RegistrationForm = { first: "", last: "", org: "", sub: "", role: "", email: "", phone: "" };
+
+ 
+
+const EMPTY_FORM: RegistrationForm = {
+  first: "",
+  last: "",
+  org: "",
+  sub: "",
+  role: "",
+  email: "",
+  phone: "",
+  dietary: "",
+  accessibility: "",
+  travel: "",
+};
+
+interface RegisterViewProps {
+  onRegistered: () => void;
+}
 
 interface FieldProps {
   label: string;
@@ -35,7 +53,7 @@ function Field({ label, value, onChange, placeholder, required, type = "text", p
   );
 }
 
-export default function RegisterView() {
+export default function RegisterView({ onRegistered }: RegisterViewProps) {
   const [submitted, setSubmitted] = useState(false);
   const [form, setForm] = useState<RegistrationForm>(EMPTY_FORM);
   const [agree, setAgree] = useState(false);
@@ -53,16 +71,24 @@ export default function RegisterView() {
           <div className="text-sm text-white/70">{form.org || "your organisation"}</div>
         </div>
 
-        <div className="bg-white rounded-2xl border border-slate-200 mt-4 p-6 flex flex-col items-center">
-          <div className="text-[11px] tracking-wide text-slate-400 mb-3">YOUR ENTRY PASS</div>
-          <div className="p-3 border border-slate-200 rounded-xl">
-            <QRPattern seed={form.first.length + form.last.length + 3} />
-          </div>
-          <div className="text-xs text-slate-400 mt-3">
-            OAK-2026-{String(Math.abs(form.first.length * 137 + 400)).slice(0, 4)}-XKPH
-          </div>
-          <div className="text-xs text-slate-400">Present at event entrance for check-in</div>
-        </div>
+        {form.role === "Partner" && (
+          <>
+            <div className="bg-white rounded-2xl border border-slate-200 mt-4 p-6 flex flex-col items-center">
+              <div className="text-[11px] tracking-wide text-slate-400 mb-3">YOUR ENTRY PASS</div>
+              <div className="p-3 border border-slate-200 rounded-xl">
+                <QRPattern seed={form.first.length + form.last.length + 3} />
+              </div>
+              <div className="text-xs text-slate-400 mt-3">
+                OAK-2026-{String(Math.abs(form.first.length * 137 + 400)).slice(0, 4)}-XKPH
+              </div>
+              <div className="text-xs text-slate-400">Present at event entrance for check-in</div>
+            </div>
+
+            <button className="w-full mt-4 bg-navy text-white rounded-xl py-3 text-sm font-medium flex items-center justify-center gap-2 hover:bg-navy-light">
+              <Download size={15} /> Download QR Code
+            </button>
+          </>
+        )}
 
         <div className="bg-white rounded-2xl border border-slate-200 mt-4 p-6 space-y-3">
           <div className="text-[11px] tracking-wide text-slate-400 mb-1">REGISTRATION DETAILS</div>
@@ -81,9 +107,6 @@ export default function RegisterView() {
           ))}
         </div>
 
-        <button className="w-full mt-4 bg-navy text-white rounded-xl py-3 text-sm font-medium flex items-center justify-center gap-2 hover:bg-navy-light">
-          <Download size={15} /> Download QR Code
-        </button>
         <button
           onClick={() => {
             setSubmitted(false);
@@ -122,7 +145,10 @@ export default function RegisterView() {
       <form
         onSubmit={(e) => {
           e.preventDefault();
-          if (agree) setSubmitted(true);
+          if (agree) {
+            setSubmitted(true);
+            onRegistered();
+          }
         }}
         className="bg-white rounded-2xl border border-slate-200 mt-4 p-6 space-y-4"
       >
@@ -135,19 +161,25 @@ export default function RegisterView() {
         <Field label="Sub-partner / Programme Area" value={form.sub} onChange={(v) => setForm({ ...form, sub: v })} placeholder="Optional" />
         <div>
           <label className="text-[11px] tracking-wide text-slate-400">ROLE / CAPACITY *</label>
-          <select
-            required
-            value={form.role}
-            onChange={(e) => setForm({ ...form, role: e.target.value as RegistrationForm["role"] })}
-            className="w-full mt-1 border border-slate-200 rounded-lg px-3 py-2 text-sm bg-slate-50 focus:outline-none focus:ring-2 focus:ring-navy/20"
-          >
-            <option value="">Select your role</option>
-            <option>Partner</option>
-            <option>OAK Staff</option>
-            <option>Coordination Team</option>
-            <option>Presenter</option>
-            <option>Observer</option>
-          </select>
+          <div className="relative group mt-1">
+            <select
+              required
+              value={form.role}
+              onChange={(e) => setForm({ ...form, role: e.target.value as RegistrationForm["role"] })}
+              className="w-full appearance-none border border-slate-200 rounded-lg px-3 py-2 pr-10 text-sm bg-slate-50 focus:outline-none focus:ring-2 focus:ring-navy/20"
+            >
+              <option value="">Select your role</option>
+              <option>Partner</option>
+              <option>OAK Staff</option>
+              <option>Coordination Team</option>
+              <option>Presenter</option>
+              <option>Observer</option>
+            </select>
+            <ChevronDown
+              size={16}
+              className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-slate-400"
+            />
+          </div>
         </div>
         <div className="grid grid-cols-2 gap-3">
           <Field label="Email Address" required type="email" value={form.email} onChange={(v) => setForm({ ...form, email: v })} placeholder="you@organisation.org" />
@@ -156,9 +188,27 @@ export default function RegisterView() {
 
         <div className="bg-slate-50 rounded-xl p-4 space-y-3">
           <div className="text-[11px] tracking-wide text-slate-400">REQUIREMENTS</div>
-          <Field label="Dietary Requirements" value="" onChange={() => {}} placeholder="e.g. Vegetarian, Halal, Gluten-free" plain />
-          <Field label="Accessibility Requirements" value="" onChange={() => {}} placeholder="e.g. Wheelchair access, hearing loop" plain />
-          <Field label="Travel & Accommodation" value="" onChange={() => {}} placeholder="e.g. Flight from London, hotel needed" plain />
+          <Field
+            label="Dietary Requirements"
+            value={form.dietary}
+            onChange={(v) => setForm({ ...form, dietary: v })}
+            placeholder="e.g. Vegetarian, Halal, Gluten-free"
+            plain
+          />
+          <Field
+            label="Accessibility Requirements"
+            value={form.accessibility}
+            onChange={(v) => setForm({ ...form, accessibility: v })}
+            placeholder="e.g. Wheelchair access, hearing loop"
+            plain
+          />
+          <Field
+            label="Travel & Accommodation"
+            value={form.travel}
+            onChange={(v) => setForm({ ...form, travel: v })}
+            placeholder="e.g. Flight from London, hotel needed"
+            plain
+          />
         </div>
 
         <label className="flex items-start gap-2 text-xs text-slate-500">
