@@ -18,6 +18,17 @@ npm run build
 npm run preview
 ```
 
+## Supabase setup
+
+Create a Supabase project, run `../oak-next/supabase/schema.sql` in the SQL Editor, then create `frontend/.env.local`:
+
+```env
+VITE_SUPABASE_URL=https://your-project-ref.supabase.co
+VITE_SUPABASE_ANON_KEY=your-anon-key
+```
+
+Restart Vite after changing environment variables. Registration writes participant records to Supabase. The schema intentionally restricts participant reads and attendance changes to authenticated Coordination Team users, so check-in authentication must be added before production check-in is enabled.
+
 ## Project structure
 
 ```
@@ -28,7 +39,6 @@ src/
   data/mock.ts            # mock partners, schedule, notes, resources
   components/
     Sidebar.tsx
-    QRPattern.tsx          # generated QR-style pattern, no external QR lib needed
   views/
     RegisterView.tsx
     CheckInView.tsx
@@ -41,6 +51,6 @@ Checking someone in on the Check-In screen updates the Attendance dashboard live
 
 ## Notes
 
-- All data (partners, schedule, attendees) is mocked in `src/data/mock.ts` — swap in real API calls when ready.
-- The QR codes are a generated visual pattern (`QRPattern.tsx`), not scannable — swap in a library like `qrcode` if you need real codes.
+- Partners, schedule, and sample scanner entries are still mocked in `src/data/mock.ts`.
+- Partner registration IDs are persisted in Supabase and rendered as real, scannable QR codes.
 - Styling uses Tailwind with a `navy` custom color (`#0f1e3d` / `#16295a`) defined in `tailwind.config.ts`.

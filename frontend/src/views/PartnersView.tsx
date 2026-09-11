@@ -1,8 +1,13 @@
 import { useState } from "react";
-import { ArrowLeft, Globe, ExternalLink, Mail, Search } from "lucide-react";
+import { ArrowLeft, Download, Globe, ExternalLink, Mail, Search } from "lucide-react";
 import type { Partner } from "../types";
 import { PARTNERS } from "../data/mock";
 import { initials } from "../utils";
+import QRPattern from "../components/QRPattern";
+
+function partnerQrSeed(partner: Partner) {
+  return [...`${partner.code}-${partner.contact}`].reduce((seed, character) => seed + character.charCodeAt(0), 0);
+}
 
 export default function PartnersView() {
   const [q, setQ] = useState("");
@@ -48,6 +53,19 @@ export default function PartnersView() {
             </div>
           </div>
         </div>
+
+        <div className="bg-white rounded-2xl border border-slate-200 mt-4 p-6 flex flex-col items-center">
+          <div className="text-[11px] tracking-wide text-slate-400 mb-3">PARTNER ENTRY PASS</div>
+          <div className="p-3 border border-slate-200 rounded-xl">
+            <QRPattern seed={partnerQrSeed(p)} />
+          </div>
+          <div className="text-xs text-slate-500 font-medium mt-3">OAK-2026-{p.code}</div>
+          <div className="text-xs text-slate-400 mt-1">Present at event entrance for check-in</div>
+        </div>
+
+        <button className="w-full mt-4 bg-navy text-white rounded-xl py-3 text-sm font-medium flex items-center justify-center gap-2 hover:bg-navy-light">
+          <Download size={15} /> Download QR Code
+        </button>
 
         <button className="w-full mt-4 bg-navy text-white rounded-xl py-3 text-sm font-medium flex items-center justify-between px-5 hover:bg-navy-light">
           <span className="flex items-center gap-2">

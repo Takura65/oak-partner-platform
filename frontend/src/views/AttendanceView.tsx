@@ -15,7 +15,7 @@ export default function AttendanceView({ attendees, checkedInCount, setActive }:
   return (
     <div className="max-w-xl mx-auto">
       <div className="font-semibold text-lg text-slate-800">Attendance</div>
-      <div className="text-sm text-slate-400 mb-4">Check-in tracking · 9–11 March 2026</div>
+      <div className="text-sm text-slate-400 mb-4">Check-in tracking · 9–11 November 2026</div>
 
       <div className="bg-white rounded-2xl border border-slate-200 p-6">
         {list.length === 0 ? (

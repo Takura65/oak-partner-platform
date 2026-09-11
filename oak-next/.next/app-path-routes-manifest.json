@@ -1,0 +1,20 @@
+{
+  "/_global-error/page": "/_global-error",
+  "/_not-found/page": "/_not-found",
+  "/admin/attendance/page": "/admin/attendance",
+  "/admin/check-in/page": "/admin/check-in",
+  "/api/test-supabase/route": "/api/test-supabase",
+  "/attendance/page": "/attendance",
+  "/check-in/page": "/check-in",
+  "/directory/[id]/page": "/directory/[id]",
+  "/directory/page": "/directory",
+  "/favicon.ico/route": "/favicon.ico",
+  "/login/page": "/login",
+  "/page": "/",
+  "/partners/page": "/partners",
+  "/pass/[id]/page": "/pass/[id]",
+  "/program/page": "/program",
+  "/programme/page": "/programme",
+  "/qr-code/page": "/qr-code",
+  "/register/page": "/register"
+}

@@ -1,5 +1,5 @@
-import { UserPlus, ScanLine, Calendar, Globe, LayoutGrid } from "lucide-react";
-import type { NavId } from "../types";
+import { UserPlus, ScanLine, Calendar, Globe, LayoutGrid, QrCode } from "lucide-react";
+import type { NavId, Role } from "../types";
 import { NAV } from "../data/mock";
 
 const ICONS: Record<NavId, typeof UserPlus> = {
@@ -8,6 +8,7 @@ const ICONS: Record<NavId, typeof UserPlus> = {
   programme: Calendar,
   partners: Globe,
   attendance: LayoutGrid,
+  "qr-code": QrCode,
 };
 
 
@@ -15,9 +16,20 @@ interface SidebarProps {
   active: NavId;
   setActive: (id: NavId) => void;
   registered: boolean;
+  role: Role | null;
 }
 
-export default function Sidebar({ active, setActive, registered }: SidebarProps) {
+const ROLE_ACCESS: Record<Role, NavId[]> = {
+  Partner: ["qr-code"],
+  "OAK Staff": ["programme", "partners"],
+  Presenter: ["programme", "partners"],
+  Observer: ["programme", "partners"],
+  "Coordination Team": ["checkin", "programme", "partners", "attendance"],
+};
+
+export default function Sidebar({ active, setActive, registered, role }: SidebarProps) {
+  const allowedPages = role ? ROLE_ACCESS[role] : [];
+
   return (
     <div className="w-60 shrink-0 border-r border-slate-200 bg-white flex flex-col h-full">
       <div className="px-6 pt-6 pb-5 border-b border-slate-100">
@@ -26,7 +38,7 @@ export default function Sidebar({ active, setActive, registered }: SidebarProps)
         <div className="text-[11px] font-medium text-slate-500 mt-3">PARTNER CONVENING 2026</div>
       </div>
       <nav className="flex-1 py-3 px-3 space-y-0.5">
-        {NAV.filter((n) => (registered ? n.id !== "register" : n.id === "register")).map((n) => {
+        {NAV.filter((n) => (registered ? allowedPages.includes(n.id) : n.id === "register")).map((n) => {
           const Icon = ICONS[n.id];
           const isActive = active === n.id;
           return (
@@ -49,7 +61,7 @@ export default function Sidebar({ active, setActive, registered }: SidebarProps)
         </div>
         <div className="leading-tight">
           <div className="text-xs font-medium text-slate-700">Harare, Zimbabwe</div>
-          <div className="text-[11px] text-slate-400">9–11 March 2026</div>
+          <div className="text-[11px] text-slate-400">9–11 November 2026</div>
         </div>
       </div>
     </div>

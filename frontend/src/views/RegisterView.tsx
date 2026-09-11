@@ -17,10 +17,11 @@ const EMPTY_FORM: RegistrationForm = {
   dietary: "",
   accessibility: "",
   travel: "",
+  accommodation: "",
 };
 
 interface RegisterViewProps {
-  onRegistered: () => void;
+  onRegistered: (registration: RegistrationForm) => Promise<void> | void;
 }
 
 interface FieldProps {
@@ -57,6 +58,8 @@ export default function RegisterView({ onRegistered }: RegisterViewProps) {
   const [submitted, setSubmitted] = useState(false);
   const [form, setForm] = useState<RegistrationForm>(EMPTY_FORM);
   const [agree, setAgree] = useState(false);
+  const [isRegistering, setIsRegistering] = useState(false);
+  const [error, setError] = useState("");
 
   if (submitted) {
     return (
@@ -97,7 +100,7 @@ export default function RegisterView({ onRegistered }: RegisterViewProps) {
             ["Organisation", form.org || "—"],
             ["Role", form.role || "—"],
             ["Email", form.email || "—"],
-            ["Event Dates", "9–11 March 2026"],
+            ["Event Dates", "9–11 November 2026"],
             ["Location", "Harare, Zimbabwe"],
           ].map(([k, v]) => (
             <div key={k} className="flex justify-between text-sm py-1 border-b border-slate-50 last:border-0">
@@ -126,7 +129,7 @@ export default function RegisterView({ onRegistered }: RegisterViewProps) {
       <div className="rounded-2xl bg-gradient-to-br from-navy to-navy-light p-6 text-white relative overflow-hidden">
         <div className="absolute -right-10 -top-10 w-36 h-36 rounded-full bg-white/5" />
         <div className="text-xl font-semibold">Partner Convening 2026</div>
-        <div className="text-sm text-white/60 mt-0.5">Harare · 9–11 March 2026</div>
+        <div className="text-sm text-white/60 mt-0.5">Harare · 9–11 November 2026</div>
       </div>
 
       <div className="grid grid-cols-3 gap-3 mt-4 relative px-1 max-w-md mx-auto">
@@ -145,10 +148,15 @@ export default function RegisterView({ onRegistered }: RegisterViewProps) {
       <form
         onSubmit={(e) => {
           e.preventDefault();
-          if (agree) {
-            setSubmitted(true);
-            onRegistered();
-          }
+          if (!agree || isRegistering) return;
+          setIsRegistering(true);
+          setError("");
+          Promise.resolve(onRegistered(form))
+            .then(() => setSubmitted(true))
+            .catch((registrationError: unknown) => {
+              setError(registrationError instanceof Error ? registrationError.message : "Registration failed. Please try again.");
+            })
+            .finally(() => setIsRegistering(false));
         }}
         className="bg-white rounded-2xl border border-slate-200 mt-4 p-6 space-y-4"
       >
@@ -209,6 +217,13 @@ export default function RegisterView({ onRegistered }: RegisterViewProps) {
             placeholder="e.g. Flight from London, hotel needed"
             plain
           />
+          <Field
+            label="Accommodation Requirements"
+            value={form.accommodation}
+            onChange={(v) => setForm({ ...form, accommodation: v })}
+            placeholder="e.g. Hotel room required"
+            plain
+          />
         </div>
 
         <label className="flex items-start gap-2 text-xs text-slate-500">
@@ -218,11 +233,12 @@ export default function RegisterView({ onRegistered }: RegisterViewProps) {
 
         <button
           type="submit"
-          disabled={!agree}
+          disabled={!agree || isRegistering}
           className="w-full bg-navy text-white rounded-xl py-3 text-sm font-medium disabled:opacity-40 hover:bg-navy-light transition-colors"
         >
-          Register
+          {isRegistering ? "Saving registration..." : "Register"}
         </button>
+        {error && <div className="text-sm text-rose-600" role="alert">{error}</div>}
         <div className="text-center text-[11px] text-slate-300">
           Your data is secured and handled by OAK Foundation in accordance with GDPR.
         </div>

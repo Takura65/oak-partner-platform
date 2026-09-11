@@ -1,4 +1,4 @@
-export type NavId = "register" | "checkin" | "programme" | "partners" | "attendance";
+export type NavId = "register" | "qr-code" | "checkin" | "programme" | "partners" | "attendance";
 
 export type Role = "Partner" | "OAK Staff" | "Coordination Team" | "Presenter" | "Observer";
 
@@ -77,4 +77,10 @@ export interface RegistrationForm {
   dietary: string;
   accessibility: string;
   travel: string;
+  accommodation: string;
+}
+
+export interface RegistrationRecord {
+  registrationId: string;
+  qrCodeId: string | null;
 }

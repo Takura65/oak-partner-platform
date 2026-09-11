@@ -115,7 +115,7 @@ export default function CheckInView({ attendees, checkIn, checkedInCount }: Chec
           </div>
           <div className="font-semibold">Checked In Successfully</div>
           <div className="text-sm text-white/80">
-            {new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })} · 9 March 2026
+            {new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })} · 9 November 2026
           </div>
         </div>
 

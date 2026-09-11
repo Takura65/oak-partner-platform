@@ -51,7 +51,7 @@ export const RESOURCES: Resource[] = [
 
 export const SCHEDULE: Record<number, DaySchedule> = {
   1: {
-    date: "9 Mar",
+    date: "9 Nov",
     featured: { title: "Opening Plenary: Pathways to Impact", time: "09:00 – 10:30", speaker: "Dr. Helena Moreau · OAK Foundation", venue: "Main Hall A" },
     blocks: [
       { type: "break", label: "Registration & Welcome Coffee", time: "08:00" },
@@ -65,7 +65,7 @@ export const SCHEDULE: Record<number, DaySchedule> = {
     ],
   },
   2: {
-    date: "10 Mar",
+    date: "10 Nov",
     featured: { title: "Panel: Strategic Communications for Grantees", time: "09:00 – 10:15", speaker: "Rashitka Nair · OAK Foundation", venue: "Main Hall A" },
     blocks: [
       { type: "break", label: "Coffee Break", time: "10:15" },
@@ -75,7 +75,7 @@ export const SCHEDULE: Record<number, DaySchedule> = {
     ],
   },
   3: {
-    date: "11 Mar",
+    date: "11 Nov",
     featured: { title: "Closing Plenary: Commitments & Next Steps", time: "09:30 – 11:00", speaker: "Dr. Helena Moreau · OAK Foundation", venue: "Main Hall A" },
     blocks: [
       { type: "break", label: "Coffee Break", time: "11:00" },
@@ -92,8 +92,9 @@ export const TAG_COLOR: Record<string, string> = {
   Social: "bg-rose-50 text-rose-700",
 };
 
-export const NAV: { id: "register" | "checkin" | "programme" | "partners" | "attendance"; label: string }[] = [
+export const NAV: { id: "register" | "qr-code" | "checkin" | "programme" | "partners" | "attendance"; label: string }[] = [
   { id: "register", label: "Register" },
+  { id: "qr-code", label: "QR Code" },
   { id: "checkin", label: "Check In" },
   { id: "programme", label: "Programme" },
   { id: "partners", label: "Partners" },

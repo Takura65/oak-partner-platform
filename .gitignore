@@ -13,6 +13,12 @@ env/
 
 # Environment variables
 .env
+**/.env.local
+
+# JavaScript dependencies and generated build output
+**/node_modules/
+**/dist/
+**/*.tsbuildinfo
 
 # IDE
 .vscode/

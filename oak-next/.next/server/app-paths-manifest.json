@@ -1,0 +1,20 @@
+{
+  "/_global-error/page": "app/_global-error/page.js",
+  "/_not-found/page": "app/_not-found/page.js",
+  "/admin/attendance/page": "app/admin/attendance/page.js",
+  "/admin/check-in/page": "app/admin/check-in/page.js",
+  "/api/test-supabase/route": "app/api/test-supabase/route.js",
+  "/attendance/page": "app/attendance/page.js",
+  "/check-in/page": "app/check-in/page.js",
+  "/directory/[id]/page": "app/directory/[id]/page.js",
+  "/directory/page": "app/directory/page.js",
+  "/favicon.ico/route": "app/favicon.ico/route.js",
+  "/login/page": "app/login/page.js",
+  "/page": "app/page.js",
+  "/partners/page": "app/partners/page.js",
+  "/pass/[id]/page": "app/pass/[id]/page.js",
+  "/program/page": "app/program/page.js",
+  "/programme/page": "app/programme/page.js",
+  "/qr-code/page": "app/qr-code/page.js",
+  "/register/page": "app/register/page.js"
+}
